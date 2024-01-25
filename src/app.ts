@@ -17,7 +17,7 @@ app.use(
 );
 app.use(cookieParser());
 // Application Routes
-app.use('/api/v1', router);
+app.use('/api', router);
 
 app.get('/test', (req: Request, res: Response) => {
   res.send('Hello World!');
