@@ -21,7 +21,13 @@ const updateBikeIntoDb = async (id: string, payload: Partial<TBike>) => {
   return result;
 };
 
+const deleteBikesFromDb = async (ids: [string]) => {
+  const result = await Bike.deleteMany({ _id: { $in: ids } });
+  return result;
+};
+
 export const BikeServices = {
   addBikeToDb,
   updateBikeIntoDb,
+  deleteBikesFromDb,
 };

@@ -7,5 +7,4 @@ export type TBike = {
   type: string;
   color: string;
   releaseDate: string;
-  isDeleted: boolean;
 };

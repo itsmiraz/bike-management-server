@@ -15,4 +15,5 @@ router.put(
   validateRequest(BikeValidation.updateBikeSchema),
   BikeControllers.updateBike,
 );
+router.delete('/delete-bike', BikeControllers.deleteBikes);
 export const BikeRoutes = router;

@@ -22,7 +22,6 @@ const createBikeSchema = z.object({
     type: createStringSchema('Type'),
     color: createStringSchema('Color'),
     releaseDate: createStringSchema('Realease Date'),
-    isDeleted: z.boolean(),
   }),
 });
 const updateBikeSchema = z.object({
@@ -35,7 +34,6 @@ const updateBikeSchema = z.object({
     type: createStringSchema('Type').optional(),
     color: createStringSchema('Color').optional(),
     releaseDate: createStringSchema('Realease Date').optional(),
-    isDeleted: z.boolean().optional(),
   }),
 });
 
