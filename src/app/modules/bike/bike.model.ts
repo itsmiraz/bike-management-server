@@ -10,6 +10,10 @@ const bikeSchema = new Schema<TBike>({
   type: { type: String, required: true },
   color: { type: String, required: true },
   releaseDate: { type: String, required: true },
+  isDeleted: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 export const Bike = model<TBike>('Bike', bikeSchema);

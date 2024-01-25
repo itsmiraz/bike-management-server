@@ -10,4 +10,9 @@ router.post(
   validateRequest(BikeValidation.createBikeSchema),
   BikeControllers.addBike,
 );
+router.put(
+  '/update-bike/:id',
+  validateRequest(BikeValidation.updateBikeSchema),
+  BikeControllers.updateBike,
+);
 export const BikeRoutes = router;

@@ -6,14 +6,27 @@ const addBike = catchAsync(async (req, res) => {
 
   const result = await BikeServices.addBikeToDb(payload);
 
+  res.status(201).json({
+    success: true,
+    statusCode: 201,
+    message: 'SuccessFully Added  Bike',
+    data: result,
+  });
+});
+const updateBike = catchAsync(async (req, res) => {
+  const payload = req.body;
+  const id = req.params.id;
+  const result = await BikeServices.updateBikeIntoDb(id, payload);
+
   res.status(200).json({
     success: true,
     statusCode: 200,
-    message: 'SuccessFully Added  Bike',
+    message: 'SuccessFully updated  Bike',
     data: result,
   });
 });
 
 export const BikeControllers = {
   addBike,
+  updateBike,
 };

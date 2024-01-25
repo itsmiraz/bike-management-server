@@ -22,9 +22,24 @@ const createBikeSchema = z.object({
     type: createStringSchema('Type'),
     color: createStringSchema('Color'),
     releaseDate: createStringSchema('Realease Date'),
+    isDeleted: z.boolean(),
+  }),
+});
+const updateBikeSchema = z.object({
+  body: z.object({
+    name: createStringSchema('Name').optional(),
+    price: createNumberSchema('Price').optional(),
+    quantity: createNumberSchema('Quantity').optional(),
+    brand: createStringSchema('Brand').optional(),
+    model: createStringSchema('Model').optional(),
+    type: createStringSchema('Type').optional(),
+    color: createStringSchema('Color').optional(),
+    releaseDate: createStringSchema('Realease Date').optional(),
+    isDeleted: z.boolean().optional(),
   }),
 });
 
 export const BikeValidation = {
   createBikeSchema,
+  updateBikeSchema,
 };
