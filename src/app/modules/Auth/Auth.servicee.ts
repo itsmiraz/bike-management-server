@@ -10,9 +10,21 @@ import jwt from 'jsonwebtoken';
 import { TUser } from '../user/user.interface';
 
 const loginUser = async (payload: TLoginUser) => {
-  const isUserExists = await User.findOne({ email: payload.email });
+  const isUserExists = await User.findOne({ email: payload.email }).select(
+    '+password',
+  );
+
   if (!isUserExists) {
     throw new AppError(404, 'User Not Found');
+  }
+  console.log(isUserExists);
+  const isPasswordMatched = await User.isPasswordMatched(
+    payload.password,
+    isUserExists.password,
+  );
+
+  if (!isPasswordMatched) {
+    throw new AppError(httpStatus.FORBIDDEN, 'Incorrect Password');
   }
 
   const jwtPayload = {
@@ -64,7 +76,9 @@ const changePasswordIntoDb = async (
   user: JwtPayload,
   payload: { oldPassword: string; password: string },
 ) => {
-  const isUserExists = await User.findOne({ email: user.email });
+  const isUserExists = await User.findOne({ email: user.email }).select(
+    '+password',
+  );
   if (!isUserExists) {
     throw new AppError(404, 'User Not Found');
   }
