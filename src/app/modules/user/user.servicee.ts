@@ -4,7 +4,7 @@ import { User } from './user.model';
 import { JwtPayload } from 'jsonwebtoken';
 
 const getMeFromDb = async (payload: JwtPayload) => {
-  const { userId, role } = payload;
+  const { email } = payload;
   const result = null;
 
   return result;
