@@ -17,7 +17,6 @@ const loginUser = async (payload: TLoginUser) => {
   if (!isUserExists) {
     throw new AppError(404, 'User Not Found');
   }
-  console.log(isUserExists);
   const isPasswordMatched = await User.isPasswordMatched(
     payload.password,
     isUserExists.password,
@@ -45,6 +44,7 @@ const loginUser = async (payload: TLoginUser) => {
   return {
     accessToken,
     refreshToken,
+    user: isUserExists,
   };
 };
 

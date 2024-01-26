@@ -4,7 +4,7 @@ import { AuthServices } from './Auth.servicee';
 
 const loginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.loginUser(req.body);
-  const { refreshToken, accessToken } = result;
+  const { refreshToken, accessToken, user } = result;
 
   res
     .cookie('refreshToken', refreshToken, {
@@ -17,12 +17,14 @@ const loginUser = catchAsync(async (req, res) => {
       message: 'User Logged in successfully ',
       data: {
         accessToken,
+        user: user,
       },
     });
 });
 
 const registerUser = catchAsync(async (req, res) => {
   const result = await AuthServices.registerUserIntoDb(req.body);
+
   const { refreshToken, accessToken, user } = result;
 
   res
