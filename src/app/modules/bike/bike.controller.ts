@@ -37,9 +37,20 @@ const deleteBikes = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getBikes = catchAsync(async (req, res) => {
+  const result = await BikeServices.getBikes(req.query);
+
+  res.status(200).json({
+    success: true,
+    statusCode: 200,
+    message: 'SuccessFully retrived Bikes',
+    data: result,
+  });
+});
 
 export const BikeControllers = {
   addBike,
   updateBike,
   deleteBikes,
+  getBikes,
 };

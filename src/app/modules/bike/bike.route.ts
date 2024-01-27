@@ -16,4 +16,5 @@ router.put(
   BikeControllers.updateBike,
 );
 router.delete('/delete-bike', BikeControllers.deleteBikes);
+router.get('/', BikeControllers.getBikes);
 export const BikeRoutes = router;
