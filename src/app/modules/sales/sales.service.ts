@@ -16,11 +16,10 @@ const createASaleintoDb = async (payload: TSale) => {
     throw new AppError(400, 'Insuffient Stock');
   }
 
-  const newQuantity = isProductExists.quantity - payload.quantity;
-
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
+    const newQuantity = isProductExists.quantity - payload.quantity;
 
     // reduce the quantity from the product
     await Bike.findByIdAndUpdate(
@@ -35,6 +34,7 @@ const createASaleintoDb = async (payload: TSale) => {
     );
 
     const result = await Sale.create([payload], { session });
+
     await session.commitTransaction();
     await session.endSession();
     return result;

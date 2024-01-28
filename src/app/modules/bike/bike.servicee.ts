@@ -160,16 +160,18 @@ const getBikes = async (query: Record<string, unknown>) => {
 
   const colorDateQuery = await sizeDateQuery.find(color);
 
+  const filteredData = colorDateQuery?.filter((data) => data.quantity > 0);
+
   // 'color',
 
   const metaData = {
     // page: page,
     // limit: limit,
-    total: colorDateQuery.length,
+    total: filteredData?.length,
   };
   return {
     metaData,
-    data: colorDateQuery,
+    data: filteredData,
   };
 };
 
