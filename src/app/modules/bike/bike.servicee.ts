@@ -39,7 +39,7 @@ const getBikes = async (query: Record<string, unknown>) => {
   // { presentAddress: { $regex : query.searchTerm , $options: i}}
   // { 'name.firstName': { $regex : query.searchTerm , $options: i}}
 
-  const bikeSearchAbleFields = ['name', 'model', 'color', 'size'];
+  const bikeSearchAbleFields = ['name', 'model', 'color'];
   // WE ARE DYNAMICALLY DOING IT USING LOOP
   const searchQuery = Bike.find({
     $or: bikeSearchAbleFields.map((field) => ({
@@ -55,7 +55,8 @@ const getBikes = async (query: Record<string, unknown>) => {
     'brand',
     'model',
     'type',
-    'size',
+    'minCcSize',
+    'maxCcSize',
     'color',
   ];
   excludeFields.forEach((el) => delete queryObj[el]);
@@ -97,13 +98,33 @@ const getBikes = async (query: Record<string, unknown>) => {
 
   const maxPriceQuery = minPriceQuery.find(maxPrice);
 
+  let minCCSize = 0;
+
+  if (query?.minCcSize) {
+    minCCSize = Number(query?.minCcSize);
+  }
+
+  const minCCSizeQuery = maxPriceQuery.find({
+    size: { $gte: minCCSize },
+  });
+
+  let maxCCSize = {};
+
+  if (query?.maxCcSize) {
+    maxCCSize = {
+      size: { $lte: Number(query?.maxCcSize) },
+    };
+  }
+
+  const maxCCSizeQuery = minCCSizeQuery.find(maxCCSize);
+
   let releaseDate = {};
 
   if (query?.releaseYear && query?.releaseYear !== '-') {
     releaseDate = { releaseDate: query?.releaseYear };
   }
 
-  const releaseDateQuery = maxPriceQuery.find(releaseDate);
+  const releaseDateQuery = maxCCSizeQuery.find(releaseDate);
 
   let brand = {};
 

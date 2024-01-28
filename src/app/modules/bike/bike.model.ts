@@ -31,7 +31,7 @@ const bikeSchema = new Schema<TBike>({
     required: true,
   },
   size: {
-    type: String,
+    type: Number,
     required: true,
   },
   releaseDate: {

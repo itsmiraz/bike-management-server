@@ -6,6 +6,6 @@ export type TBike = {
   model: string;
   type: string;
   color: string;
-  size: string;
+  size: number;
   releaseDate: string;
 };
