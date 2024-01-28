@@ -28,12 +28,31 @@ const deleteBikesFromDb = async (ids: [string]) => {
 
 const getBikes = async (query: Record<string, unknown>) => {
   const queryObj = { ...query };
+  console.log(query);
+  let searchTerm = ''; // SET DEFAULT VALUE
+  // IF searchTerm  IS GIVEN SET IT
+  if (query?.searchTerm) {
+    searchTerm = query?.searchTerm as string;
+  }
+
+  // HOW OUR FORMAT SHOULD BE FOR PARTIAL MATCH  :
+  // { email: { $regex : query.searchTerm , $options: i}}
+  // { presentAddress: { $regex : query.searchTerm , $options: i}}
+  // { 'name.firstName': { $regex : query.searchTerm , $options: i}}
+
+  const bikeSearchAbleFields = ['name', 'model', 'color', 'size'];
+  // WE ARE DYNAMICALLY DOING IT USING LOOP
+  const searchQuery = Bike.find({
+    $or: bikeSearchAbleFields.map((field) => ({
+      [field]: { $regex: searchTerm, $options: 'i' },
+    })),
+  });
 
   const excludeFields = [
     'searchTerm',
     'page',
     'limit',
-    'releaseDate',
+    'releaseYear',
     'brand',
     'model',
     'type',
@@ -65,7 +84,7 @@ const getBikes = async (query: Record<string, unknown>) => {
     minPrice = Number(query?.minPrice);
   }
 
-  const minPriceQuery = Bike.find({}).find({
+  const minPriceQuery = searchQuery.find({
     price: { $gte: minPrice },
   });
 
@@ -81,15 +100,15 @@ const getBikes = async (query: Record<string, unknown>) => {
 
   let releaseDate = {};
 
-  if (query.releaseDate) {
-    releaseDate = { releaseDate: query?.releaseDate };
+  if (query?.releaseYear && query?.releaseYear !== '-') {
+    releaseDate = { releaseDate: query?.releaseYear };
   }
 
   const releaseDateQuery = maxPriceQuery.find(releaseDate);
 
   let brand = {};
 
-  if (query.brand) {
+  if (query?.brand && query?.brand !== '-') {
     brand = { brand: query?.brand };
   }
 
@@ -97,7 +116,7 @@ const getBikes = async (query: Record<string, unknown>) => {
 
   let model = {};
 
-  if (query.model) {
+  if (query?.model) {
     model = { model: query?.model };
   }
 
@@ -105,7 +124,7 @@ const getBikes = async (query: Record<string, unknown>) => {
 
   let type = {};
 
-  if (query.type) {
+  if (query?.type && query?.type !== '-') {
     type = { type: query?.type };
   }
 
@@ -113,7 +132,7 @@ const getBikes = async (query: Record<string, unknown>) => {
 
   let size = {};
 
-  if (query.size) {
+  if (query?.size) {
     size = { size: query?.size };
   }
 
@@ -121,7 +140,7 @@ const getBikes = async (query: Record<string, unknown>) => {
 
   let color = {};
 
-  if (query.color) {
+  if (query?.color && query?.color !== '-') {
     color = { color: query?.color };
   }
 
