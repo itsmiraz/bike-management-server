@@ -1,10 +1,12 @@
-import { object, string, number } from 'zod';
+import { z } from 'zod';
 
-const createSaleSchema = object({
-  buyerName: string(),
-  productId: string(),
-  date: string(),
-  quantity: number(),
+const createSaleSchema = z.object({
+  body: z.object({
+    buyerName: z.string(),
+    productId: z.string(),
+    date: z.string(),
+    quantity: z.number(),
+  }),
 });
 
 export const SaleValidation = {

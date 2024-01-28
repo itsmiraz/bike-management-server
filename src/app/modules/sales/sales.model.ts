@@ -11,7 +11,7 @@ const SaleSchema = new Schema<TSale>({
     required: true,
   },
   date: {
-    type: String,
+    type: Date,
     required: true,
   },
   quantity: {
