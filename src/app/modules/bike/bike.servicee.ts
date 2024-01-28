@@ -34,13 +34,7 @@ const getBikes = async (query: Record<string, unknown>) => {
     searchTerm = query?.searchTerm as string;
   }
 
-  // HOW OUR FORMAT SHOULD BE FOR PARTIAL MATCH  :
-  // { email: { $regex : query.searchTerm , $options: i}}
-  // { presentAddress: { $regex : query.searchTerm , $options: i}}
-  // { 'name.firstName': { $regex : query.searchTerm , $options: i}}
-
   const bikeSearchAbleFields = ['name', 'model', 'color'];
-  // WE ARE DYNAMICALLY DOING IT USING LOOP
   const searchQuery = Bike.find({
     $or: bikeSearchAbleFields.map((field) => ({
       [field]: { $regex: searchTerm, $options: 'i' },
