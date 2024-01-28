@@ -3,6 +3,7 @@ import AppError from '../../errors/AppError';
 import { Bike } from '../bike/bike.model';
 import { TSale } from './sales.interface';
 import { Sale } from './sales.model';
+import { TimelineType } from './sales.contstants';
 
 const createASaleintoDb = async (payload: TSale) => {
   const isProductExists = await Bike.findById(payload.productId);
@@ -44,6 +45,35 @@ const createASaleintoDb = async (payload: TSale) => {
   }
 };
 
+const getSalesHistoryFromDB = async (query: Record<string, unknown>) => {
+  let startDate = {};
+
+  switch (query?.timeline) {
+    case TimelineType.DAILY:
+      startDate = new Date(Date.now() - 24 * 60 * 60 * 1000);
+      break;
+    case TimelineType.WEEKLY:
+      startDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+      break;
+    case TimelineType.MONTHLY:
+      startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+      break;
+    case TimelineType.YEARLY:
+      startDate = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000);
+      break;
+
+    default:
+      throw new AppError(400, 'Invalid timeline selected');
+  }
+
+  const result = await Sale.find({ date: { $gte: startDate } }).populate(
+    'productId',
+  );
+
+  return result;
+};
+
 export const SalesService = {
   createASaleintoDb,
+  getSalesHistoryFromDB,
 };

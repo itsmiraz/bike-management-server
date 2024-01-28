@@ -8,6 +8,7 @@ const SaleSchema = new Schema<TSale>({
   },
   productId: {
     type: Types.ObjectId,
+    ref: 'Bike',
     required: true,
   },
   date: {

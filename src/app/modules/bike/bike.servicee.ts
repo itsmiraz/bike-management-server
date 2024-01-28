@@ -28,7 +28,6 @@ const deleteBikesFromDb = async (ids: [string]) => {
 
 const getBikes = async (query: Record<string, unknown>) => {
   const queryObj = { ...query };
-  console.log(query);
   let searchTerm = ''; // SET DEFAULT VALUE
   // IF searchTerm  IS GIVEN SET IT
   if (query?.searchTerm) {

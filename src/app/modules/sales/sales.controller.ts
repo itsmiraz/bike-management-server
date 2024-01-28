@@ -12,6 +12,18 @@ const createAsale = catchAsync(async (req, res) => {
   });
 });
 
+const getSalesHistory = catchAsync(async (req, res) => {
+  const result = await SalesService.getSalesHistoryFromDB(req.query);
+
+  res.status(200).json({
+    success: true,
+    statusCode: 200,
+    message: 'SuccessFully retrived History',
+    data: result,
+  });
+});
+
 export const SalesController = {
   createAsale,
+  getSalesHistory,
 };

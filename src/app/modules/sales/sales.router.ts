@@ -5,6 +5,7 @@ import { SalesController } from './sales.controller';
 
 const router = Router();
 
+router.get('/sales-history', SalesController.getSalesHistory);
 router.post(
   '/create-sale',
   validateRequest(SaleValidation.createSaleSchema),
