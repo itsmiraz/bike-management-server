@@ -1,14 +1,14 @@
-import { Schema, Types, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { TSale } from './sales.interface';
+import { bikeSchema } from '../bike/bike.model';
 
 const SaleSchema = new Schema<TSale>({
   buyerName: {
     type: String,
     required: true,
   },
-  productId: {
-    type: Types.ObjectId,
-    ref: 'Bike',
+  product: {
+    type: bikeSchema,
     required: true,
   },
   date: {

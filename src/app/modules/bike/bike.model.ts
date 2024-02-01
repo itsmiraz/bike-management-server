@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { TBike } from './bike.interface';
 
-const bikeSchema = new Schema<TBike>({
+export const bikeSchema = new Schema<TBike>({
   name: {
     type: String,
     required: true,

@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/sales-history', SalesController.getSalesHistory);
 router.post(
-  '/create-sale',
+  '/create-sale/:productId',
   validateRequest(SaleValidation.createSaleSchema),
   SalesController.createAsale,
 );

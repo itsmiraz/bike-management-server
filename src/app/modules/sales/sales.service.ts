@@ -5,8 +5,8 @@ import { TSale } from './sales.interface';
 import { Sale } from './sales.model';
 import { TimelineType } from './sales.contstants';
 
-const createASaleintoDb = async (payload: TSale) => {
-  const isProductExists = await Bike.findById(payload.productId);
+const createASaleintoDb = async (productId: string, payload: TSale) => {
+  const isProductExists = await Bike.findById(productId);
 
   if (!isProductExists) {
     throw new AppError(404, 'Bike does not Exists');
@@ -22,8 +22,8 @@ const createASaleintoDb = async (payload: TSale) => {
     const newQuantity = isProductExists.quantity - payload.quantity;
 
     // reduce the quantity from the product
-    await Bike.findByIdAndUpdate(
-      payload.productId,
+    const updatedProduct = await Bike.findByIdAndUpdate(
+      productId,
       {
         quantity: newQuantity,
       },
@@ -33,7 +33,11 @@ const createASaleintoDb = async (payload: TSale) => {
       },
     );
 
-    const result = await Sale.create([payload], { session });
+    const newPayload = {
+      ...payload,
+      product: updatedProduct,
+    };
+    const result = await Sale.create([newPayload], { session });
 
     await session.commitTransaction();
     await session.endSession();
@@ -66,9 +70,7 @@ const getSalesHistoryFromDB = async (query: Record<string, unknown>) => {
       throw new AppError(400, 'Invalid timeline selected');
   }
 
-  const result = await Sale.find({ date: { $gte: startDate } }).populate(
-    'productId',
-  );
+  const result = await Sale.find({ date: { $gte: startDate } });
 
   return result;
 };

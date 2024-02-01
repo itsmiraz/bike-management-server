@@ -1,8 +1,8 @@
-import { Schema } from 'mongoose';
+import { TBike } from '../bike/bike.interface';
 
 export type TSale = {
   buyerName: string;
-  productId: Schema.Types.ObjectId;
+  product: TBike;
   date: Date;
   quantity: number;
 };
